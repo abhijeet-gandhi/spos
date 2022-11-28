@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-md-9">
+        <nb-card>
+            <nb-card-header>Create a new menu item</nb-card-header>
+            <nb-card-body>
+                <form [formGroup]="menuForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group row">
+                        <label for="nameInput" class="label col-sm-3 col-form-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" nbInput fullWidth id="nameInput" [(ngModel)]="menuItem.name" name="name"
+                                formControlName="nameControl" placeholder="Name of menu item">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPrice" class="label col-sm-3 col-form-label">Price</label>
+                        <div class="col-sm-9">
+                            <input type="text" nbInput fullWidth id="inputPrice" placeholder="Price" name="price"
+                                formControlName="priceControl" [(ngModel)]="menuItem.price">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputTax" class="label col-sm-3 col-form-label">Tax(%)</label>
+                        <div class="col-sm-9">
+                            <input type="text" nbInput fullWidth id="inputTax" placeholder="Tax in percentage"
+                                formControlName="taxControl" name="tax" [(ngModel)]="menuItem.tax">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="inputPrice" class="label col-sm-3 col-form-label">Picture Path</label>
+                        <!-- <div class="col-sm-9">
+                            <input type="text" nbInput fullWidth id="inputPrice" placeholder="Picture Path"
+                                name="picturePath" [(ngModel)]="menuItem.picturePath">
+                        </div> -->
+                        <div class="col-sm-9">
+                            <nb-select [selected]="menuItem.picturePath" (selectedChange)="changePicture($event)"
+                                formControlName="picturePathControl" class="nb-select">
+                                <nb-option *ngFor="let picture of picturePaths" [value]="picture">{{ picture }}
+                                </nb-option>
+                            </nb-select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="offset-sm-3 col-sm-9 form-inline">
+                            <button type="submit" nbButton status="primary" [disabled]="!menuForm.valid">Submit</button>
+                            <button type="button" nbButton status="primary" (click)="onReset()">Reset</button>
+                        </div>
+                    </div>
+                </form>
+            </nb-card-body>
+        </nb-card>
+
+    </div>
+
+</div>

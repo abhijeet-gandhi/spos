@@ -1,0 +1,164 @@
+<div class="row">
+    <div class="col-lg-12">
+        <nb-card size="giant">
+            <nb-card-body>
+                <nb-stepper #stepper [(selectedIndex)]="stepperIndex" disableStepNavigation>
+                    <nb-step label="Place order">
+                        <div *ngIf="(totalQty > 0)" class="header-container">
+                            <nb-list>
+                                <nb-list-item class="item">
+                                    <span class="qty">Total items added in cart: </span>
+                                    <span class="qty">{{ totalQty }}</span>
+                                    <span class="price">${{total | round}}</span>
+                                </nb-list-item>
+                                <div class="container-group">
+                                    <span class="qty">{{totalQty}} </span>
+                                    <span>Items</span>
+                                    <span> |</span>
+                                    <span class="price"> $ {{total | round}}</span>
+                                </div>
+                            </nb-list>
+                        </div>
+
+                        <nb-list>
+                            <nb-list-item class="item" *ngFor="let c of order.items">
+                                <div><img class="images" src="../../../assets/images/food/{{c.picturePath}}" />
+                                </div>
+                                <span class="qty">{{ c.name }}</span>
+                                <span class="price">${{c.price}}</span>
+                                <!-- <nb-user [picture]="c.user.picture" [name]="c.user.name" [title]="c.type" size="large"></nb-user> -->
+                                <div class="qty" *ngIf="(c.qty < 1)">
+                                    <button nbButton type="button" (click)="onAddItem(c)">
+                                        Add Item
+                                    </button>
+                                </div>
+                                <div *ngIf="(c.qty > 0)" class="qty">
+                                    <button nbButton ghost type="button" (click)="reduceQty(c)">
+                                        <nb-icon icon="minus-square-outline" pack="eva"></nb-icon>
+                                    </button>
+                                    <span> {{c.qty}} </span>
+                                    <button nbButton ghost type="button" (click)="onAddItem(c)">
+                                        <nb-icon icon="plus-square-outline" pack="eva"></nb-icon>
+                                    </button>
+                                </div>
+                            </nb-list-item>
+                        </nb-list>
+                        <button nbButton (click)="onOrderSubmit()">Confirm</button>
+                    </nb-step>
+                    <nb-step label="Confirm">
+                        <div class="table-responsive">
+                            <table class=" table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Item</th>
+                                        <th>Price</th>
+                                        <th>Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let i of finalOrder.items | callback:filterOrders">
+                                        <td>{{ i.name }}</td>
+                                        <td>${{ i.price }}</td>
+                                        <td>{{ i.qty }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td>${{ finalOrder.totalPrice | round}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Tax</td>
+                                        <td>${{ finalOrder.totalTax | round}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td>Final</td>
+                                        <td>${{ finalOrder.totalWithTax | round}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <button nbButton (click)="backOnConfirm()">back</button>
+                        <button nbButton (click)="onConfirmSubmit()">Confirm</button>
+                    </nb-step>
+                    <nb-step label="Checkout">
+                        <nb-card size="medium">
+                            <nb-card-header>Check out</nb-card-header>
+                            <nb-card-body>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div>
+                                            <div>
+                                                <div class="subtitle">Total: ${{finalOrder.totalWithTax | round}}</div>
+                                                <div class="subtitle">Tip: ${{finalOrder.tip | round}}</div>
+                                                <span>Final: ${{finalOrder.totalWithTip | round}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8">
+                                        <div class="row">
+                                            <div class="slider-container">
+                                                <ngx-tip-dragger [(value)]="tip" [min]="0"
+                                                    [max]="(finalOrder.totalWithTax | round)"
+                                                    [fillColors]="theme.arcFill" [thumbBg]="theme.thumbBg"
+                                                    [thumbBorderColor]="theme.thumbBorder" (valueChange)="onTipChange()"
+                                                    [disableArcColor]="theme.arcEmpty">
+                                                    <div class="slider-value-container">
+                                                        <div class="value temperature h1">
+                                                            $ {{ (tip | round) }}
+                                                        </div>
+                                                        <div class="desc">
+                                                            Tip
+                                                        </div>
+                                                    </div>
+                                                </ngx-tip-dragger>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <button nbButton status="primary" (click)="addTipClicked(5)">5%</button>
+                                            <button nbButton status="primary" (click)="addTipClicked(10)">10%</button>
+                                            <button nbButton status="primary" (click)="addTipClicked(15)">15%</button>
+                                            <button nbButton status="primary" (click)="addTipClicked(20)">20%</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button nbButton (click)="backOnCheckout()">back</button>
+                                    <button nbButton (click)="onCheckoutSubmit()">next</button>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </nb-step>
+                    <nb-step label="Payment">
+                        <nb-card size="small">
+                            <nb-card-header>Payment</nb-card-header>
+                            <nb-card-body [nbSpinner]="loading" nbSpinnerStatus="success" nbSpinnerSize="giant">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div>
+                                            <div>
+                                                <div class="subtitle">Total: ${{finalOrder.totalWithTax | round}}</div>
+                                                <div class="subtitle">Tip: ${{finalOrder.tip | round}}</div>
+                                                <span>Final: ${{finalOrder.totalWithTip | round}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button nbButton (click)="backOnPayment()">back</button>
+                                    <button nbButton (click)="onPaymentSubmit()">Pay</button>
+                                </div>
+                            </nb-card-body>
+                        </nb-card>
+                    </nb-step>
+                </nb-stepper>
+            </nb-card-body>
+        </nb-card>
+    </div>
+</div>
