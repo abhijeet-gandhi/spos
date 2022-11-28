@@ -29,9 +29,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veronica.Api", "Veronica.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veronica.IdServer", "Veronica.IdServer\Veronica.IdServer.csproj", "{76548BA5-26D0-4643-8296-D01C73218885}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veronica.Menu.Tests", "Veronica.Menu.Tests\Veronica.Menu.Tests.csproj", "{BED220E9-8F8C-4F0B-8D88-DC5824DDBAC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veronica.Menu.Tests", "Veronica.Menu.Tests\Veronica.Menu.Tests.csproj", "{BED220E9-8F8C-4F0B-8D88-DC5824DDBAC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Veronica.Order.Tests", "Veronica.Order.Tests\Veronica.Order.Tests.csproj", "{AF4D4D50-0649-490F-A8F7-0CE23EFDD098}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Veronica.Order.Tests", "Veronica.Order.Tests\Veronica.Order.Tests.csproj", "{AF4D4D50-0649-490F-A8F7-0CE23EFDD098}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B883108A-707A-4759-8E53-F0EDBE9FCBD0}"
+	ProjectSection(SolutionItems) = preProject
+		readme.txt = readme.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
