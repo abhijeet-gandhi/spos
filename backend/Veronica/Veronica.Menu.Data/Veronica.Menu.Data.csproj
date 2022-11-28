@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Veronica.Menu\Veronica.Menu.csproj" />
+    <ProjectReference Include="..\Veronica.SharedKernel\Veronica.SharedKernel.csproj" />
+  </ItemGroup>
+
+</Project>
